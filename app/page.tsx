@@ -1,10 +1,10 @@
-import { Button } from "./components/ui/button";
+import { Button } from "./components/ui/button"
 
 export default function Home() {
   return (
     <div>
       <h1>Hello NextJS</h1>
-      <Button>Clique aqui</Button>
+      <Button> Clique aqui</Button>
     </div>
   )
 }
