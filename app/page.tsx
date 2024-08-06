@@ -9,9 +9,17 @@ import { Avatar } from "./components/ui/avatar"
 import { AvatarImage } from "@radix-ui/react-avatar"
 import { db } from "./lib/prisma"
 import { BarbershopItem } from "./components/barbershop-item"
+import { QuickSearchOptions } from "./components/quick-search-options"
+import { Footer } from "./components/footer"
 
 const Home = async () => {
   const barbershops = await db.barbershop.findMany({})
+  const popularBarbershops = await db.barbershop.findMany({
+    orderBy: {
+      name: "desc",
+    },
+  })
+
   return (
     <div>
       <Header />
@@ -26,6 +34,10 @@ const Home = async () => {
           <Button>
             <SearchIcon />
           </Button>
+        </div>
+
+        <div>
+          <QuickSearchOptions />
         </div>
 
         <div className="relative h-[150px] w-full">
@@ -74,7 +86,19 @@ const Home = async () => {
             ))}
           </div>
         </div>
+
+        <div>
+          <h2 className="mb-3 text-xs font-bold uppercase text-gray-400">
+            Populares
+          </h2>
+          <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+            {popularBarbershops.map((barbershop) => (
+              <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+            ))}
+          </div>
+        </div>
       </div>
+      <Footer />
     </div>
   )
 }
