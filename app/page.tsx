@@ -10,7 +10,6 @@ import { AvatarImage } from "@radix-ui/react-avatar"
 import { db } from "./lib/prisma"
 import { BarbershopItem } from "./components/barbershop-item"
 import { QuickSearchOptions } from "./components/quick-search-options"
-import { Footer } from "./components/footer"
 
 const Home = async () => {
   const barbershops = await db.barbershop.findMany({})
@@ -98,7 +97,6 @@ const Home = async () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   )
 }
