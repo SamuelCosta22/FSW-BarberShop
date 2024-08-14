@@ -9,6 +9,7 @@ import { authOptions } from "./lib/auth"
 import { BookingItem } from "./components/booking-item"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { getConfirmedBookings } from "./data/get-confirmed-bookings"
 
 const Home = async () => {
   const barbershops = await db.barbershop.findMany({})
@@ -19,26 +20,7 @@ const Home = async () => {
   })
 
   const session = await getServerSession(authOptions)
-  const confirmedBookings = session?.user
-    ? await db.booking.findMany({
-        where: {
-          userId: (session.user as any).id,
-          date: {
-            gte: new Date(),
-          },
-        },
-        include: {
-          service: {
-            include: {
-              barbershop: true,
-            },
-          },
-        },
-        orderBy: {
-          date: "asc",
-        },
-      })
-    : []
+  const confirmedBookings = await getConfirmedBookings()
 
   return (
     <div>
